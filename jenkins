@@ -1,0 +1,35 @@
+pipeline {
+    agent {lable "Docker-Node"} 
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('dockerengine')
+    DOCKERREG_CREDENTAILS = credentails('dockerreglogin')
+    }
+    stages { 
+        stage('SCM Checkout') {
+            steps{
+            git 'https://github.com/faheemkhan5/apache.git'
+            }
+        }
+
+        stage('Build docker image') {
+            steps {  
+                sh 'docker build -t docreg.eprocure.gov.pk/apache:$BUILD_NUMBER .'
+            }
+        }
+        stage('login to dockerhub') {
+            steps{
+                sh 'echo $DOCKERREG_CREDENTIALS_PSW | docker login -u $DOCKERREG_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('push image') {
+            steps{
+                sh 'docker push docreg.eprocure.gov.pk/apache:$BUILD_NUMBER'
+            }
+        }
+}
+post {
+        always {
+            sh 'docker logout'
+        }
+    }
+}
