@@ -9,18 +9,8 @@ pipeline {
 
   stages {
 
-    stage('Checkout Source') {
-      steps {
-        git 'https://github.com/faheemkhan5/test.git'
-      }
-    }
-
     stage('Build image') {
-      steps{
-        script {
-          dockerImage = docker.build dockerimagename
-        }
-      }
+      step([$class: 'DockerBuilderPublisher', cleanImages: true, cleanupWithJenkinsJobDelete: true, cloud: '', dockerFileDirectory: '/root/docker-images/workspace/test5/', fromRegistry: [credentialsId: 'docker-reg', url: 'https://docreg.eprcoure.gov.pk'], pushCredentialsId: 'docker-reg', pushOnSuccess: true, tagsString: 'test5'])
     }
 
     stage('Pushing Image') {
