@@ -10,8 +10,7 @@ pipeline {
   stages {
 
     stage('Build image') {
-       step{ ([$class: 'DockerBuilderPublisher', cleanImages: true, cleanupWithJenkinsJobDelete: true, cloud: '', dockerFileDirectory: '/root/docker-images/workspace/test5/', fromRegistry: [credentialsId: 'docker-reg', url: 'https://docreg.eprcoure.gov.pk'], pushCredentialsId: 'docker-reg', pushOnSuccess: true, tagsString: 'test5'])
-    }
+       dockerShell connector: [$class: 'DockerConnector', connectorType: 'OKHTTP', credentialsId: 'dockerserver', serverUrl: 'tcp://localhost:2345'], containerLifecycle: [createContainer: [bindAllPorts: false, bindPorts: '', command: '', cpusetCpus: '', cpusetMems: '', hostname: '', memoryLimit: 0, privileged: false, restartPolicy: [maximumRetryCount: 1, policyName: 'ALWAYS'], shmSize: 0, tty: false, user: '', workdir: ''], image: 'test', pullImage: [credentialsId: '', registriesCreds: [[credentialsId: '', registryAddr: 'https://docreg.eprocure.gov.pk']]]], executorScript: 'exec /root/docker-images/workspace/test5/script.sh', longConnector: [$class: 'DockerConnector', connectorType: 'OKHTTP', credentialsId: 'dockerserver', serverUrl: 'tcp://localhost:2345']
     }
 
     stage('Pushing Image') {
