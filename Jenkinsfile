@@ -2,20 +2,8 @@ pipeline {
   agent any
   stages {
     stage('Docker Image Buil') {
-      parallel {
-        stage('Docker Image Buil') {
-          steps {
-            echo 'Docker image Building'
-          }
-        }
-
-        stage('Build Image') {
-          steps {
-            sshCommand(sudo: true, command: 'cd /var/lib/jenkins/workspace/website-k8s/')
-            sshCommand(command: 'docker build -t docreg.eprocure.gov.pk:latest .', sudo: true)
-          }
-        }
-
+      steps {
+        echo 'Docker image Building'
       }
     }
 
