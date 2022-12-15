@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: test1
-        image: 192.168.0.51:5000/test:28
+        image: docreg.eprocure.gov.pk:5000/test:28
         resources:
           limits:
             memory: "128Mi"
