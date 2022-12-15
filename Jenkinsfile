@@ -4,8 +4,9 @@ pipeline {
     stage('Docker Image Buil') {
       steps {
         script {
-                 dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
+
       }
     }
 
@@ -16,14 +17,16 @@ pipeline {
             dockerImage.push()
           }
         }
+
       }
     }
 
     stage('Deploy to Kubernetes ') {
       steps {
-         script {
+        script {
           kubernetesDeploy(configs: "website.yaml", kubeconfigId: "kubeconfig")
-        } 
+        }
+
       }
     }
 
