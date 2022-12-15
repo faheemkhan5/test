@@ -6,16 +6,13 @@ pipeline {
         stage('Build & Push') {
           steps {
             script {
-              script {
-                docker.withRegistry( "" ) {
-                  dockerImage.push()
-                }
-              }
+              dockerImage = docker.build registry + ":$BUILD_NUMBER"
             }
 
             script {
-              script {
-                kubernetesDeploy(configs: "website.yaml", kubeconfigId: "kubeconfig")
+
+              docker.withRegistry( "" ) {
+                dockerImage.push()
               }
             }
 
