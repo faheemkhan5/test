@@ -26,11 +26,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: myapp
+  name: test1
 spec:
   type: NodePort
   selector:
-    app: myapp
+    app: test1
   ports:
   - port: 80
     targetPort: 32001
