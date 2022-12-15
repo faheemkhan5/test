@@ -3,19 +3,27 @@ pipeline {
   stages {
     stage('Docker Image Buil') {
       steps {
-        echo 'Docker image Building'
+        script {
+                 dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
       }
     }
 
     stage('Push Image to Repository') {
       steps {
-        echo 'Pushing to repository'
+        script {
+          docker.withRegistry( "" ) {
+            dockerImage.push()
+          }
+        }
       }
     }
 
     stage('Deploy to Kubernetes ') {
       steps {
-        echo 'Deploying to Kubernetes '
+         script {
+          kubernetesDeploy(configs: "website.yaml", kubeconfigId: "kubeconfig")
+        } '
       }
     }
 
