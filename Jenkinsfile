@@ -1,38 +1,33 @@
 pipeline {
-  agent any
-  stages {
-    stage('Build & Push') {
-      parallel {
-        stage('Build & Push') {
-          steps {
-            script {
-              dockerImage = docker.build registry + ":$BUILD_NUMBER"
+    environment {
+        registry = "docreg.eprocure.gov.pk:5000/test"
+        dockerImage = ""
+    }
+    agent any
+    stages {
+        }
+        stage('docker build and push') {
+            steps{
+                  script {
+                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
             }
-
-            script {
-
-              docker.withRegistry( "" ) {
-                dockerImage.push()
-              }
             }
-
+        }
+        stage('Push Image') {
+      steps{
+        script {
+          docker.withRegistry( "" ) {
+            dockerImage.push()
           }
         }
-
-        stage('Wait') {
-          steps {
-            sleep 30
-          }
-        }
-
       }
     }
-
-    stage('Deploy to Kubernetes') {
+        stage('Deploy App') {
       steps {
-        kubernetesDeploy(configs: 'website.yaml', kubeconfigId: 'kubeconfig')
+        script {
+          kubernetesDeploy(configs: "website.yaml", kubeconfigId: "kubeconfig")
+        }
       }
     }
-
-  }
+    }
 }
