@@ -13,15 +13,13 @@ spec:
     spec:
       containers:
       - name: test1
-        image: docreg.eprocure.gov.pk/test:28
+        image: docreg.eprocure.gov.pk:5000/test:28
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 80
-      imagePullSecrets:
-       - name: acr-auth 
+        - containerPort: 80 
 --- 
 apiVersion: v1
 kind: Service
