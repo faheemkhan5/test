@@ -26,16 +26,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  creationTimestamp: null
   name: test1
 spec:
-  type: NodePort
+  ports:
+  - port: 32010
+    protocol: TCP
+    targetPort: 32010
   selector:
     app: test1
-  ports:
-- name: http
-    protocol: TCP
-    port: 80
-    targetPort: 8080
-    nodePort: 30000
+  type: NodePort
+status:
+  loadBalancer: {}
   
 
