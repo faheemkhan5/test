@@ -32,7 +32,8 @@ spec:
   selector:
     app: test1
   ports:
-  - port: 8080
-  - nodePort: 32001
+  - nodePort: 30163
+      port: 8080 
+      targetPort: 80
   
 
