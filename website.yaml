@@ -37,7 +37,7 @@ spec:
     
   selector:
     app: test1
-  type: NodePort
+  type: LoadBalancer
 status:
   loadBalancer: {}
   
